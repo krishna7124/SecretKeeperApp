@@ -1,5 +1,5 @@
 # Core Streamlit dependencies
---upgrade pip
+# --upgrade pip
 streamlit
 streamlit-webrtc
 
