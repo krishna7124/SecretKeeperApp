@@ -1,5 +1,4 @@
 # Core Streamlit dependencies
-# --upgrade pip
 streamlit
 streamlit-webrtc
 
@@ -8,7 +7,7 @@ opencv-python
 face_recognition
 SpeechRecognition
 
-cmake==  # Required for building dlib
+cmake==3.25.2  # Required for building dlib
 # dlib-19.24.99-cp312-cp312-win_amd64.whl  # dlib Required for face_recognition
 
 dlib==19.24.2
