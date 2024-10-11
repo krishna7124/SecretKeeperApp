@@ -66,12 +66,6 @@ def setup_database():
         FOREIGN KEY (user_id) REFERENCES users(id)
     )
     """)
-    cursor.execute("""
-    CREATE TABLE IF NOT EXISTS secret_tags (
-        secret_id INT,
-        tags VARCHAR(255)
-    )
-    """)
 
     connection.commit()
     logging.info("Database setup complete.")
