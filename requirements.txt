@@ -13,7 +13,7 @@ cmake==3.25.2  # Required for building dlib
 dlib==19.24.2
 
 # Database connector for MySQL
-mysql-connector-python
+mysql-connector-python-rf
 
 # Numerical and scientific computing libraries
 numpy
