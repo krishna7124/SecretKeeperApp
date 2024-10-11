@@ -6,11 +6,10 @@ streamlit-webrtc
 opencv-python
 face_recognition
 SpeechRecognition
-<<<<<<< HEAD
-=======
-dlib-19.24.99-cp312-cp312-win_amd64.whl  # dlib Required for face_recognition
->>>>>>> 9535a0bc998f7c36165f0a18be74c961bc73a637
+
 cmake  # Required for building dlib
+dlib-19.24.99-cp312-cp312-win_amd64.whl  # dlib Required for face_recognition
+
 dlib-19.24.99-cp312-cp312-win_amd64.whl  # Required for face_recognition
 
 # Database connector for MySQL
