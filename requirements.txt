@@ -10,7 +10,7 @@ SpeechRecognition
 cmake  # Required for building dlib
 # dlib-19.24.99-cp312-cp312-win_amd64.whl  # dlib Required for face_recognition
 
-https://github.com/krishna7124/SecretKeeperApp/blob/main/dlib-19.24.99-cp312-cp312-win_amd64.whl
+dlib
 
 # Database connector for MySQL
 mysql-connector-python
