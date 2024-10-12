@@ -1,3 +1,4 @@
+mysql-connector
 # Core Streamlit dependencies
 streamlit
 streamlit-webrtc
@@ -13,7 +14,7 @@ cmake==3.25.2  # Required for building dlib
 dlib==19.24.2
 
 # Database connector for MySQL
-mysql-connector-python-rf
+# mysql-connector-python-rf
 
 # Numerical and scientific computing libraries
 numpy
