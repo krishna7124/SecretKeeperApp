@@ -1,5 +1,5 @@
 import streamlit as st
-from database import *
+import database
 from user import hash_password, register_user, login_user, delete_user_account, is_username_available, get_user_id, get_email_id, is_valid_email
 from secret import add_secret, view_secrets, delete_secret, analyze_secret
 from biometric import biometric_verification, capture_and_store_biometric_data
