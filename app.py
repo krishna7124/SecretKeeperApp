@@ -15,6 +15,11 @@ import re  # Import regex for validation
 logging.basicConfig(level=logging.INFO,
                     format='%(asctime)s - %(levelname)s - %(message)s')
 
+logging.basicConfig(level=logging.DEBUG)
+logging.debug('Attempting to import database module')
+
+
+logging.debug('Successfully imported database module')
 
 def is_strong_password(password):
     """Check if the password meets strength requirements."""
