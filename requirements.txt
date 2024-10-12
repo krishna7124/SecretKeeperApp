@@ -1,4 +1,3 @@
-database
 mysql-connector
 # Core Streamlit dependencies
 streamlit
