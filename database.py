@@ -1,4 +1,4 @@
-import mysql.connector
+import mysql.connector-rf
 import streamlit as st
 from mysql.connector import Error
 from cryptography.fernet import Fernet
