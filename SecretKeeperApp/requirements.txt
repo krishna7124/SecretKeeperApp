@@ -1,0 +1,16 @@
+streamlit
+streamlit-webrtc
+opencv-python
+face_recognition
+SpeechRecognition
+cmake
+dlib==19.24.2
+mysql-connector-python
+numpy
+matplotlib
+seaborn
+plotly
+cryptography
+textblob
+pandas
+Pillow
