@@ -2,9 +2,12 @@ import random
 import smtplib
 from email.mime.text import MIMEText
 import logging
+import streamlit as st
 
 # Generate a random OTP
 
+email_user = st.secrets["smtp"]["email_user"]
+email_password = st.secrets["smtp"]["email_password"]
 
 def generate_otp():
     otp = random.randint(100000, 999999)  # 6-digit OTP
@@ -24,8 +27,7 @@ def send_otp_via_email(recipient_email, otp):
         # Gmail SMTP server details
         with smtplib.SMTP('smtp.gmail.com', 587) as server:
             server.starttls()
-            server.login('krishnabhatt340@gmail.com',
-                         'dcdo rnnv nduq mwsf')  # Use App Password
+            server.login(email_user, email_password)  # Use App Password
             server.send_message(msg)
 
         logging.info(f"OTP sent successfully to {recipient_email}")
