@@ -313,9 +313,9 @@ def manage_account_interface():
     st.markdown(" 📝 Update your account information below:")
 
     # Fetch current user data
-    connection = create_connection()
-    if connection:
-        cursor = connection.cursor()
+    conn = create_conn()
+    if conn:
+        cursor = conn.cursor()
         cursor.execute("SELECT username, first_name, last_name, email FROM users WHERE id = %s",
                        (st.session_state.user_id,))
         user_data = cursor.fetchone()
@@ -364,7 +364,7 @@ def manage_account_interface():
                     UPDATE users SET first_name = %s, last_name = %s, email = %s WHERE id = %s
                 """, (first_name, last_name, email, st.session_state.user_id))
 
-                connection.commit()
+                conn.commit()
                 st.success("✅ Account updated successfully!")
                 logging.info(
                     f"User {st.session_state.username}'s account updated.")

@@ -1,4 +1,4 @@
-from mysql.connector import (connection)
+from mysql.connector import connection
 import streamlit as st
 from mysql.connector import Error
 from cryptography.fernet import Fernet
@@ -11,7 +11,7 @@ db_config = st.secrets["mysql"]
 def create_connection():
     """Create a database connection."""
     try:
-        connection = mysql.connector.connect(
+        conn = connection.MySQLConnection(
             host=db_config["host"],
             database=db_config["database"],
             user=db_config["user"],

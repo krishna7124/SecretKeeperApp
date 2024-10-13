@@ -59,12 +59,12 @@ def capture_and_store_biometric_data(username, captured_image):
 
 def biometric_verification(username, captured_image):
     """Verify user biometric data with red/green face detection indicator."""
-    connection = create_connection()
-    if connection is None:
+    conn = create_conn()
+    if conn is None:
         return False
 
     try:
-        cursor = connection.cursor()
+        cursor = conn.cursor()
         cursor.execute(
             "SELECT biometric_data FROM users WHERE username = %s", (username,))
         result = cursor.fetchone()
@@ -129,7 +129,7 @@ def biometric_verification(username, captured_image):
     except Error as e:
         logging.error(f"Error retrieving biometric data: {e}")
     finally:
-        if connection:
-            connection.close()
+        if conn:
+            conn.close()
 
     return False

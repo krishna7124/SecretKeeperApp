@@ -1,7 +1,11 @@
+import streamlit as st
 import random
 import smtplib
 from email.mime.text import MIMEText
 import logging
+
+email_user = st.secrets["smtp"]["email_user"]
+email_password = st.secrets["smtp"]["email_password"]
 
 # Generate a random OTP
 
@@ -18,14 +22,13 @@ def send_otp_via_email(recipient_email, otp):
     try:
         msg = MIMEText(f"Your OTP for verification is: {otp}")
         msg['Subject'] = 'Your OTP Code'
-        msg['From'] = 'krishnabhatt340@gmail.com'  # Sender's email
+        msg['From'] = email_user  # Sender's email
         msg['To'] = recipient_email
 
         # Gmail SMTP server details
         with smtplib.SMTP('smtp.gmail.com', 587) as server:
             server.starttls()
-            server.login('krishnabhatt340@gmail.com',
-                         'dcdo rnnv nduq mwsf')  # Use App Password
+            server.login(email_user, email_password)  # Use App Password
             server.send_message(msg)
 
         logging.info(f"OTP sent successfully to {recipient_email}")

@@ -49,8 +49,8 @@ def analyze_secret(secret):
 
 def add_secret(user_id, secret):
     """Add a secret to the database for the user."""
-    connection = create_connection()
-    if connection is None:
+    conn = create_connection()
+    if conn is None:
         return
 
     secret_key = get_secret_key(user_id)
@@ -66,25 +66,25 @@ def add_secret(user_id, secret):
 
     encrypted_secret = encrypt_secret(secret, secret_key)
     try:
-        cursor = connection.cursor()
+        cursor = conn.cursor()
         cursor.execute(
             "INSERT INTO secrets (user_id, secret) VALUES (%s, %s)", (user_id, encrypted_secret))
-        connection.commit()
+        conn.commit()
         logging.info(f"Secret added for user ID {user_id}.")
     except Exception as e:
         logging.error(f"Error adding secret: {e}")
     finally:
-        connection.close()
+        conn.close()
 
 
 def view_secrets(user_id):
     """Retrieve secrets for the user."""
-    connection = create_connection()
-    if connection is None:
+    conn = create_connection()
+    if conn is None:
         return None
 
     try:
-        cursor = connection.cursor()
+        cursor = conn.cursor()
         cursor.execute(
             "SELECT id, secret FROM secrets WHERE user_id = %s", (user_id,))
         secrets = cursor.fetchall()
@@ -103,22 +103,22 @@ def view_secrets(user_id):
     except Exception as e:
         logging.error(f"Error retrieving secrets: {e}")
     finally:
-        connection.close()
+        conn.close()
 
 
 def delete_secret(user_id, secret_id):
     """Delete a secret from the database for the user."""
-    connection = create_connection()
-    if connection is None:
+    conn = create_connection()
+    if conn is None:
         return
 
     try:
-        cursor = connection.cursor()
+        cursor = conn.cursor()
         cursor.execute(
             "DELETE FROM secrets WHERE user_id = %s AND id = %s", (user_id, secret_id))
-        connection.commit()
+        conn.commit()
         logging.info(f"Secret ID {secret_id} deleted for user ID {user_id}.")
     except Exception as e:
         logging.error(f"Error deleting secret: {e}")
     finally:
-        connection.close()
+        conn.close()

@@ -11,9 +11,9 @@ def hash_password(password):
 
 def is_username_available(username):
     """Check if the username is available."""
-    connection = create_connection()
-    if connection:
-        cursor = connection.cursor()
+    conn = create_connection()
+    if conn:
+        cursor = conn.cursor()
         cursor.execute(
             "SELECT COUNT(*) FROM users WHERE username = %s", (username,))
         count = cursor.fetchone()[0]
@@ -23,15 +23,15 @@ def is_username_available(username):
 
 def register_user(username, password, first_name, last_name, age, email, biometric_data):
     """Register a new user in the database."""
-    connection = create_connection()
-    if connection is None:
+    conn = create_connection()
+    if conn is None:
         logging.error("Database connection failed.")
         return False  # Indicate failure to the caller
 
     hashed_password = hash_password(password)
 
     try:
-        cursor = connection.cursor()
+        cursor = conn.cursor()
         cursor.execute("""
         INSERT INTO users (username, password, first_name, last_name, age, email, biometric_data)
         VALUES (%s, %s, %s, %s, %s, %s, %s)
@@ -39,7 +39,7 @@ def register_user(username, password, first_name, last_name, age, email, biometr
 
         # Check if the user was inserted successfully
         if cursor.rowcount > 0:
-            connection.commit()  # Only commit if the insert was successful
+            conn.commit()  # Only commit if the insert was successful
             logging.info(f"User '{username}' registered successfully.")
             return True  # Indicate success to the caller
         else:
@@ -52,19 +52,19 @@ def register_user(username, password, first_name, last_name, age, email, biometr
         return False  # Indicate failure
 
     finally:
-        connection.close()  # Ensure the connection is closed
+        conn.close()  # Ensure the connection is closed
 
 
 def login_user(username, password):
     """Authenticate user login."""
-    connection = create_connection()
-    if connection is None:
+    conn = create_connection()
+    if conn is None:
         return False
 
     hashed_password = hash_password(password)
 
     try:
-        cursor = connection.cursor()
+        cursor = conn.cursor()
         cursor.execute(
             "SELECT * FROM users WHERE username = %s AND password = %s", (username, hashed_password))
         user = cursor.fetchone()
@@ -72,41 +72,41 @@ def login_user(username, password):
     except Exception as e:
         logging.error(f"Error logging in user: {e}")
     finally:
-        connection.close()
+        conn.close()
 
     return False
 
 
 def delete_user_account(user_id):
     """Delete a user account from the database."""
-    connection = create_connection()
-    if connection:
-        cursor = connection.cursor()
+    conn = create_connection()
+    if conn:
+        cursor = conn.cursor()
         try:
             # Delete user secrets associated with the user ID
             cursor.execute(
                 "DELETE FROM secrets WHERE user_id = %s", (user_id,))
             # Delete the user account
             cursor.execute("DELETE FROM users WHERE id = %s", (user_id,))
-            connection.commit()
+            conn.commit()
             logging.info(
                 f"User account with ID {user_id} deleted successfully.")
             return True
         except Exception as e:
             logging.error(f"Error deleting user account: {e}")
-            connection.rollback()
+            conn.rollback()
             return False
         finally:
             cursor.close()
-            connection.close()
+            conn.close()
     return False
 
 
 def get_email_id(username):
     """Get user ID from the database based on username."""
-    connection = create_connection()
-    if connection:
-        cursor = connection.cursor()
+    conn = create_connection()
+    if conn:
+        cursor = conn.cursor()
         cursor.execute(
             "SELECT email FROM users WHERE username = %s", (username,))
         user_email = cursor.fetchone()
@@ -117,9 +117,9 @@ def get_email_id(username):
 
 def get_user_id(username):
     """Get user ID from the database based on username."""
-    connection = create_connection()
-    if connection:
-        cursor = connection.cursor()
+    conn = create_connection()
+    if conn:
+        cursor = conn.cursor()
         cursor.execute("SELECT id FROM users WHERE username = %s", (username,))
         user_id = cursor.fetchone()
         if user_id:
