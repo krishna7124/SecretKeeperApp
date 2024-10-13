@@ -3,9 +3,11 @@ streamlit-webrtc
 opencv-python
 face_recognition
 SpeechRecognition
+mysqlclient
+mysql
+mysql-connector-python
 cmake
 dlib==19.24.2
-mysql-connector-python
 numpy
 matplotlib
 seaborn
