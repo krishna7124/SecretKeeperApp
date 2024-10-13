@@ -1,5 +1,3 @@
-mysqlclient
-mysql
 mysql-connector-python
 streamlit
 streamlit-webrtc
