@@ -1,3 +1,5 @@
+mysqlclient
+mysql
 mysql-connector-python
 streamlit
 streamlit-webrtc
@@ -14,3 +16,4 @@ cryptography
 textblob
 pandas
 Pillow
+spacy

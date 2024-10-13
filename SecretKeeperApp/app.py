@@ -313,7 +313,7 @@ def manage_account_interface():
     st.markdown(" 📝 Update your account information below:")
 
     # Fetch current user data
-    conn = create_conn()
+    conn = create_connection()
     if conn:
         cursor = conn.cursor()
         cursor.execute("SELECT username, first_name, last_name, email FROM users WHERE id = %s",

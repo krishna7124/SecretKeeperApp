@@ -59,7 +59,7 @@ def capture_and_store_biometric_data(username, captured_image):
 
 def biometric_verification(username, captured_image):
     """Verify user biometric data with red/green face detection indicator."""
-    conn = create_conn()
+    conn = create_connection()
     if conn is None:
         return False
 
