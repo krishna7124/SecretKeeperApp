@@ -150,7 +150,7 @@ murmurhash==1.0.10
 mypy-extensions
 networkx==3.2.1
 nltk
-numpy==1.26.0
+numpy>=3.0.0,<2.0.0
 nvidia-cuda-cupti-cu12
 nvidia-cuda-nvrtc-cu12
 nvidia-cuda-runtime-cu12
