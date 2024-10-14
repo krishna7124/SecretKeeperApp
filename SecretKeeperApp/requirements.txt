@@ -24,7 +24,6 @@ beautifulsoup4==4.12.3
 black==24.4.2
 bleach==6.1.0
 blinker==1.7.0
-blis==1.0.1
 branca==0.7.2
 bs4==0.0.2
 cachetools==5.3.3
@@ -150,7 +149,7 @@ murmurhash==1.0.10
 mypy-extensions
 networkx==3.2.1
 nltk
-numpy>=3.0.0,<2.0.0
+numpy1.26.4
 nvidia-cuda-cupti-cu12
 nvidia-cuda-nvrtc-cu12
 nvidia-cuda-runtime-cu12
