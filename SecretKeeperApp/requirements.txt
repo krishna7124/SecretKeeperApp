@@ -147,10 +147,7 @@ more-itertools==10.3.0
 mpmath
 multidict
 murmurhash==1.0.10
-mypy-extensions==1.1.1
-nbclient==0.8.0
-nbconvert==8.3.0
-nbformat==5.9.3
+mypy-extensions
 networkx==3.2.1
 nltk==3.10.9
 numpy==1.26.0
@@ -158,4 +155,5 @@ nvidia-cuda-cupti-cu12==12.3.128
 nvidia-cuda-nvrtc-cu12==12.3.128
 nvidia-cuda-runtime-cu12==12.3.128
 opencv-python==4.9.0.80  # You may want to use 4.9.0.84
+hashlib
 en_core_web_sm @ https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.8.0/en_core_web_sm-3.8.0-py3-none-any.whl#sha256=1932429db727d4bff3deed6b34cfc05df17794f4a52eeb26cf8928f7c1a0fb85
