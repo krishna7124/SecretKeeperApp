@@ -62,7 +62,7 @@ def login_user_interface():
                 otp = generate_otp()
                 st.session_state['otp'] = otp
                 email = get_email_id(username)
-                send_otp_via_email(email, otp)
+                send_otp_via_email(email, otp, purpose="login")
                 st.success(f"📧 OTP sent to {email}. Please check your inbox.")
             else:
                 st.error("Invalid username or password.")
@@ -91,6 +91,7 @@ def login_user_interface():
                 st.session_state.user_id = get_user_id(
                     st.session_state['username'])
                 st.success("✅ Login successful!")
+                st.rerun()  # Refresh the app state
             else:
                 st.error("⚠️ Biometric data capture failed. Please try again.")
 
@@ -112,7 +113,7 @@ def register_user_interface():
 
     # Step 1: Registration input validation and OTP generation
     if st.button("Register"):
-        if username.strip() == "" or password.strip() == "" or first_name.strip() == "" or last_name.strip() == "" or email.strip() == "":
+        if username.strip() == "" or password.strip() == "" or password.strip() == "" or confirm_password.strip() == "" or last_name.strip() == "" or email.strip() == "":
             st.error("❌ All fields must be filled.")
             logging.warning(
                 "Registration attempt failed: All fields must be filled.")
@@ -146,7 +147,7 @@ def register_user_interface():
                     'email': email
                 }
                 try:
-                    send_otp_via_email(email, otp)
+                    send_otp_via_email(email, otp, purpose="signup")
                     st.success(f"OTP sent to {
                                email}. Please check your inbox.")
                     logging.info(f"OTP sent to {email} for user '{username}'.")
@@ -192,8 +193,10 @@ def register_user_interface():
                             store_secret_key(user_id)
                             st.success(
                                 "🎉 Registration successful! Please log in.")
-                            logging.info(
-                                f"User '{username}' registered successfully with user ID '{user_id}'.")
+                            st.session_state.registration_successful = True
+                            st.rerun()  # Rerun to show the success page
+
+                            logging.info(f"User '{username}' registered successfully with user ID '{user_id}'.")
                         else:
                             st.error("User ID not found after registration.")
                             logging.error(
@@ -212,6 +215,22 @@ def register_user_interface():
                     f"Error '{e}' occurred while capturing biometric data or registering user.")
                 st.error(
                     "An error occurred during registration. Please try again.")
+    if st.session_state.get('registration_successful'):
+        registration_success_page()
+
+
+def registration_success_page():
+    """
+    Displays a success message after registration and a button to navigate to the login page.
+    """
+    st.title("🎉 Registration Successful!")
+    st.success("You have successfully registered! Please log in to continue.")
+
+    # Add a button to navigate to the login page
+    if st.button("Go to Login Page"):
+        # Set session state to show login form after registration
+        st.session_state.show_login_page = True
+        st.rerun()
 
 
 def manage_secrets_interface():
@@ -274,6 +293,7 @@ def manage_secrets_interface():
         if st.button("Delete Secret"):
             delete_secret(st.session_state.user_id, secret_id)
             st.success(f"🗑️ Secret with ID {secret_id} deleted.")
+            st.rerun()  # Refresh the app state
 
 
 def display_nlp_analysis(result):
@@ -304,6 +324,7 @@ def logout_user():
     st.session_state['otp_sent'] = False
     st.session_state['otp_verified'] = False
     st.success("👋 Logged out successfully.")
+    st.rerun()  # Refresh the app state
     logging.info("User logged out.")
 
 
@@ -366,6 +387,7 @@ def manage_account_interface():
 
                 conn.commit()
                 st.success("✅ Account updated successfully!")
+                st.rerun()
                 logging.info(
                     f"User {st.session_state.username}'s account updated.")
 
@@ -439,12 +461,14 @@ def main():
     else:
         menu = ["🏠 Home", "🔐 Login", "📝 Register"]
 
-    choice = st.sidebar.selectbox("👉 Choose Action to Continue!", menu)
+    choice = st.sidebar.selectbox("👉 Choose Action to Continue! ", menu)
 
     if choice == "🔐 Login":
         login_user_interface()
+
     elif choice == "📝 Register":
         register_user_interface()
+
     elif choice == "🏠 Home":
         home_page()
     elif choice == "🔒 Manage Secrets":

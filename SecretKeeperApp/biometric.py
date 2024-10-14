@@ -15,45 +15,54 @@ def capture_and_store_biometric_data(username, captured_image):
     encodings = []
     st.write("Capture your biometric data using the camera below. The box will turn green when your face is detected.")
 
-    # Convert the captured image to RGB
-    image = Image.open(captured_image)
-    rgb_frame = np.array(image)
+    try:
+        image = Image.open(captured_image)
 
-    # Detect face locations
-    face_locations = face_recognition.face_locations(rgb_frame)
+        # Ensure the image is in RGB format for face recognition
+        rgb_frame = np.array(image.convert("RGB"))
 
-    if face_locations:
-        # If face is detected, show green border and allow capture
-        st.success("Face detected! Press the capture button.")
-        border_color = "green"
-        # Convert the captured image to Base64 for display
-        buffered = BytesIO()
-        image.save(buffered, format="PNG")
-        img_base64 = base64.b64encode(buffered.getvalue()).decode()
+        # Optionally convert to 8-bit gray if needed
+        gray_frame = np.array(image.convert("L"))
 
-        # Display the captured image with the green border
-        st.markdown(
-            f'<div style="border: 5px solid {
-                border_color}; width: 400; height: 400; display: flex; justify-content: center; align-items: center;">'
-            f'<img src="data:image/png;base64,{
-                img_base64}" alt="Captured Image" style="max-width: 100%; max-height: 100%;"></div>',
-            unsafe_allow_html=True,
-        )
+        # Detect face locations
+        face_locations = face_recognition.face_locations(rgb_frame)
 
-        # Store the encoding for the detected face
-        face_encoding = face_recognition.face_encodings(
-            rgb_frame, face_locations)[0]
-        encodings.append(face_encoding)
+        if face_locations:
+            st.success("Face detected! Press the capture button.")
+            border_color = "green"
+            # Convert the captured image to Base64 for display
+            buffered = BytesIO()
+            image.save(buffered, format="PNG")
+            img_base64 = base64.b64encode(buffered.getvalue()).decode()
 
-        st.success(f"Image Captured Successfully!")
+            # Display the captured image with the green border
+            st.markdown(
+                f'<div style="border: 5px solid {
+                    border_color}; width: 400px; height: 400px; display: flex; justify-content: center; align-items: center;">'
+                f'<img src="data:image/png;base64,{
+                    img_base64}" alt="Captured Image" style="max-width: 100%; max-height: 100%;"></div>',
+                unsafe_allow_html=True,
+            )
+
+            # Store the encoding for the detected face
+            face_encoding = face_recognition.face_encodings(
+                rgb_frame, face_locations)[0]
+            encodings.append(face_encoding)
+
+            st.success("Image Captured Successfully!")
+        else:
+            st.error("⚠️ No face detected. Please try again.")
+
+    except Exception as e:
+        logging.error(f"Error during capturing biometric data: {e}")
+        st.error(
+            "⚠️ An error occurred while capturing biometric data. Please try again.")
 
     if encodings:
-        # Average the encodings for better accuracy
         avg_encoding = np.mean(encodings, axis=0)
         logging.info("Biometric data captured successfully.")
         return avg_encoding.tobytes()  # Convert numpy array to bytes
 
-    st.error("⚠️ No face detected. Please try again.")
     return None
 
 
@@ -61,6 +70,7 @@ def biometric_verification(username, captured_image):
     """Verify user biometric data with red/green face detection indicator."""
     conn = create_connection()
     if conn is None:
+        st.error("❌ Failed to connect to the database.")
         return False
 
     try:
@@ -70,46 +80,23 @@ def biometric_verification(username, captured_image):
         result = cursor.fetchone()
 
         if result:
-            # Convert bytes back to numpy array
             stored_face_encoding = np.frombuffer(result[0], dtype=np.float64)
-
             st.write(
                 "Biometric verification in progress. The box will turn green when your face is detected.")
 
-            # Convert the captured image to RGB
             image = Image.open(captured_image)
-            rgb_frame = np.array(image)
+
+            # Ensure the image is in RGB format for face recognition
+            rgb_frame = np.array(image.convert("RGB"))
+
+            # Optionally convert to 8-bit gray if needed
+            gray_frame = np.array(image.convert("L"))
 
             # Detect face locations
             face_locations = face_recognition.face_locations(rgb_frame)
 
             if face_locations:
-                # If face is detected, show green border
                 st.success("Face detected! Verifying...")
-                face_detected = True
-                border_color = "green"
-            else:
-                # If no face is detected, show red border
-                st.error("No face detected. Please adjust your position.")
-                face_detected = False
-                border_color = "red"
-
-            # Convert the captured image to Base64 for display
-            buffered = BytesIO()
-            image.save(buffered, format="PNG")
-            img_base64 = base64.b64encode(buffered.getvalue()).decode()
-
-            # Display the captured image with the red/green border
-            st.markdown(
-                f'<div style="border: 5px solid {
-                    border_color}; width: 400; height: 400; display: flex; justify-content: center; align-items: center;">'
-                f'<img src="data:image/png;base64,{
-                    img_base64}" alt="Captured Image" style="max-width: 100%; max-height: 100%;"></div>',
-                unsafe_allow_html=True,
-            )
-
-            if face_detected:
-                # Extract face encoding
                 face_encoding = face_recognition.face_encodings(
                     rgb_frame, face_locations)[0]
 
@@ -123,6 +110,9 @@ def biometric_verification(username, captured_image):
                     return True
                 else:
                     st.error("❌ Biometric verification failed. Please try again.")
+            else:
+                st.error("No face detected. Please adjust your position.")
+
         else:
             st.error("❌ No biometric data found for the user.")
 

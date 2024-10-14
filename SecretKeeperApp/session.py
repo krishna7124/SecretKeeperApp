@@ -2,10 +2,6 @@ import streamlit as st
 import logging
 import time
 
-# Import the logout_user function from a separate module if necessary
-# For now, we assume it’s defined in this file
-
-
 def initialize_session():
     """Initialize the session state for user login."""
     if 'logged_in' not in st.session_state:
@@ -16,19 +12,23 @@ def initialize_session():
         st.session_state.user_id = None
     if 'last_activity' not in st.session_state:
         st.session_state.last_activity = None
-
+    if 'registration_successful' not in st.session_state:
+        st.session_state.registration_successful = False
+    if 'show_login_page' not in st.session_state:
+        st.session_state.show_login_page = False
 
 def logout_user():
     """Log out the user and reset session state."""
     st.session_state.logged_in = False
+    st.session_state.username = None
     st.session_state.user_id = None
     st.session_state.last_activity = None
+    st.session_state.registration_successful = False
+    st.session_state.show_login_page = False
     st.success("You have been logged out.")
 
-
 # Set the timeout period in seconds
-SESSION_TIMEOUT = 600  # 5 minutes
-
+SESSION_TIMEOUT = 600  # 10 minutes
 
 def check_session_timeout():
     """Check if the session has timed out due to inactivity."""

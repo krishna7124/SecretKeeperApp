@@ -15,12 +15,12 @@ def create_connection():
             host=db_config["host"],
             database=db_config["database"],
             user=db_config["user"],
-            password=db_config["password"]
-            # auth_plugin=db_config["auth_plugin"]
+            password=db_config["password"],
+            auth_plugin=db_config["auth_plugin"]
         )
-        if connection.is_connected():
+        if conn.is_connected():
             logging.info("Connected to MySQL database.")
-            return connection
+            return conn
     except Error as e:
         logging.error(f"Error: {e}")
     return None
@@ -28,11 +28,11 @@ def create_connection():
 
 def setup_database():
     """Set up the database and create required tables if they do not exist."""
-    connection = create_connection()
-    if connection is None:
+    conn = create_connection()
+    if conn is None:
         return
 
-    cursor = connection.cursor()
+    cursor = conn.cursor()
 
     # Create users table
     cursor.execute("""
@@ -73,20 +73,20 @@ def setup_database():
     )
     """)
 
-    connection.commit()
+    conn.commit()
     logging.info("Database setup complete.")
     cursor.close()
-    connection.close()
+    conn.close()
 
 
 def get_secret_key(user_id):
     """Get the secret key for the user."""
-    connection = create_connection()
-    if connection is None:
+    conn = create_connection()
+    if conn is None:
         return None
 
     try:
-        cursor = connection.cursor()
+        cursor = conn.cursor()
         cursor.execute(
             "SELECT secret_key FROM secret_keys WHERE user_id = %s", (user_id,))
         result = cursor.fetchone()
@@ -96,7 +96,7 @@ def get_secret_key(user_id):
     except Error as e:
         logging.error(f"Error retrieving secret key: {e}")
     finally:
-        connection.close()
+        conn.close()
 
     return None
 
@@ -108,25 +108,25 @@ def generate_secret_key():
 
 def store_secret_key(user_id):
     """Stores a generated secret key in the database for a given user."""
-    connection = create_connection()
+    conn = create_connection()
     # Generate the secret key and encode it to base64 before storing
     secret_key = base64.b64encode(generate_secret_key()).decode('utf-8')
 
-    if connection is None:
+    if conn is None:
         logging.error(
             "Failed to create database connection. Secret key storage failed.")
         return
 
     try:
-        cursor = connection.cursor()
+        cursor = conn.cursor()
         cursor.execute(
             "INSERT INTO secret_keys (user_id, secret_key) VALUES (%s, %s)",
             (user_id, secret_key)
         )
-        connection.commit()
+        conn.commit()
         logging.info("Secret key stored successfully.")
     except Error as e:
         logging.error(f"Error '{e}' occurred while storing secret key.")
     finally:
         cursor.close()
-        connection.close()
+        conn.close()
