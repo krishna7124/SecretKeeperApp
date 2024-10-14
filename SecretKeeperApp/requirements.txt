@@ -155,11 +155,8 @@ multidict==6.0.5
 murmurhash==1.0.10
 mypy==1.10.0
 mypy-extensions==1.0.0
-mysql==0.0.3
 mysql-connector==2.2.9
 mysql-connector-python==9.0.0
-mysql-connector-python-rf==2.2.2
-mysqlclient==2.2.4
 namex==0.0.8
 nbclient==0.10.0
 nbconvert==7.16.4
