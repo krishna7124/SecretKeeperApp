@@ -1,10 +1,10 @@
-# import mysql.connector
-import pysql
 import streamlit as st
 from mysql.connector import Error
 from cryptography.fernet import Fernet
 import logging
 import base64
+import pysql
+import mysql.connector
 
 db_config = st.secrets["mysql"]
 
