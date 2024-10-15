@@ -148,6 +148,7 @@ multidict
 murmurhash==1.0.10
 mypy-extensions
 mysql-connector-python
+mysql-connector-python-rf
 pysql-framework
 networkx==3.2.1
 nltk
@@ -155,4 +156,4 @@ numpy==1.26.4
 nvidia-cuda-cupti-cu12
 nvidia-cuda-nvrtc-cu12
 nvidia-cuda-runtime-cu12
-opencv-python
+opencv-python
