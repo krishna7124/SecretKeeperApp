@@ -148,6 +148,7 @@ multidict
 murmurhash==1.0.10
 mypy-extensions
 mysql-connector-python
+pysql-framework
 networkx==3.2.1
 nltk
 numpy==1.26.4
