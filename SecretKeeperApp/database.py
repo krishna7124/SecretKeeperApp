@@ -1,5 +1,4 @@
 import streamlit as st
-from cryptography.fernet import Fernet
 import logging
 import base64
 import pysql
