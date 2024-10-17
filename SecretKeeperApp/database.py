@@ -2,6 +2,7 @@ import streamlit as st
 # from mysql.connector import connection
 # import mysql.connector
 # from mysql.connector import Error
+import spacy
 from cryptography.fernet import Fernet
 import logging
 import base64
