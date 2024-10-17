@@ -10,7 +10,7 @@ numpy
 matplotlib
 seaborn
 plotly
-cryptography
+cryptography==43.0.1
 textblob
 pandas
 Pillow
