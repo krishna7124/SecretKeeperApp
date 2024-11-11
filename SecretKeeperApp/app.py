@@ -5,15 +5,28 @@ from secret import add_secret, view_secrets, delete_secret, analyze_secret
 from biometric import biometric_verification, capture_and_store_biometric_data
 from session import initialize_session, logout_user, check_session_timeout
 from data_visualization import visualize_secret_sentiments
-# import speech_recognition as sr
 from SpeechRecognizer import recognize_speech_from_mic
 from otp import generate_otp, send_otp_via_email
 import logging
-import re  # Import regex for validation
+import re
 
 # Configure logging
 logging.basicConfig(level=logging.INFO,
                     format='%(asctime)s - %(levelname)s - %(message)s')
+
+st.set_page_config(page_title="Secret Keeper App", layout="wide")
+
+st.markdown("""
+    <style>
+        .reportview-container {
+            margin-top: -2em;
+        }
+        #MainMenu {visibility: hidden;}
+        .stDeployButton {display:none;}
+        footer {visibility: hidden;}
+        #stDecoration {display:none;}
+    </style>
+""", unsafe_allow_html=True)
 
 
 def is_strong_password(password):
@@ -196,7 +209,8 @@ def register_user_interface():
                             st.session_state.registration_successful = True
                             st.rerun()  # Rerun to show the success page
 
-                            logging.info(f"User '{username}' registered successfully with user ID '{user_id}'.")
+                            logging.info(
+                                f"User '{username}' registered successfully with user ID '{user_id}'.")
                         else:
                             st.error("User ID not found after registration.")
                             logging.error(

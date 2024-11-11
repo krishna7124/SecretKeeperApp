@@ -28,7 +28,7 @@ def logout_user():
     st.success("You have been logged out.")
 
 # Set the timeout period in seconds
-SESSION_TIMEOUT = 3600  # 60 minutes
+SESSION_TIMEOUT = 600  # 10 minutes
 
 def check_session_timeout():
     """Check if the session has timed out due to inactivity."""
