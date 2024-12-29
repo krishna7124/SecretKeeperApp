@@ -14,5 +14,5 @@ cryptography
 textblob
 pandas
 Pillow
-spacy>=3.0.0,<4.0.0
+spacy
 en-core-web-sm
