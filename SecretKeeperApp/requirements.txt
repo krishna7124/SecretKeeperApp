@@ -1,6 +1,5 @@
-mysql-connector-python
 streamlit
-streamlit-webrtc
+mysql-connector-python
 opencv-python-headless  # Smaller version of OpenCV for non-GUI environments
 face_recognition
 SpeechRecognition
@@ -16,4 +15,3 @@ pandas
 Pillow
 spacy>=3.0.0,<4.0.0
 en_core_web_sm @ https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.8.0/en_core_web_sm-3.8.0-py3-none-any.whl#sha256=1932429db727d4bff3deed6b34cfc05df17794f4a52eeb26cf8928f7c1a0fb85
-
