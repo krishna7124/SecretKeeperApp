@@ -1,9 +1,8 @@
-streamlit
 mysql-connector-python
-opencv-python-headless  # Smaller version of OpenCV for non-GUI environments
+opencv-python
 face_recognition
 SpeechRecognition
-cmake==3.18.4  # Pin to a stable version
+cmake
 dlib==19.24.2
 numpy
 matplotlib

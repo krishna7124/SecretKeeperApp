@@ -14,7 +14,7 @@ import re
 logging.basicConfig(level=logging.INFO,
                     format='%(asctime)s - %(levelname)s - %(message)s')
 
-st.set_page_config(page_title="Secret Keeper App", layout="wide")
+st.set_page_config(page_icon="🔐",page_title="Secret Keeper App", layout="wide")
 
 st.markdown("""
     <style>
